@@ -63,7 +63,7 @@ const Page = () => {
 					</button>
 				</div>
 				<div className='text-center mt-4'>
-					<Link href='/signup' className='text-blue-500 hover:text-blue-700'>
+					<Link href={"/signup"} className='text-blue-500 hover:text-blue-700'>
 						Don't have an account? Signup here.
 					</Link>
 				</div>
