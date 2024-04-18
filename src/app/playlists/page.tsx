@@ -1,8 +1,7 @@
-import React from 'react'
-
+'use client'
 const page = () => {
   return (
-    <div>page</div>
+    <div>Playlist</div>
   )
 }
 
