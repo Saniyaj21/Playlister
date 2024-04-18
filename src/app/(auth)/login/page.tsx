@@ -64,7 +64,7 @@ const Page = () => {
 				</div>
 				<div className='text-center mt-4'>
 					<Link href={"/signup"} className='text-blue-500 hover:text-blue-700'>
-						Don't have an account? Signup here.
+						Dont have an account? Signup here.
 					</Link>
 				</div>
 			</form>
