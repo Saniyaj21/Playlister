@@ -6,20 +6,25 @@ import { useState } from "react";
 import { AiOutlineLogin } from "react-icons/ai";
 import Sidebar from "./Sidebar";
 
-
 const Header = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState(true);
 	const [isOpen, setIsOpen] = useState(false);
 	const toggleMenu = () => {
 		setIsOpen(!isOpen);
 		console.log(0);
-		
 	};
 	return (
 		<header className=' bg-gray-200 px-[10%] max-sm:px-[5%]'>
 			<nav className='container mx-auto flex justify-between items-center h-[10vh]'>
 				<Link href={"/"} className='text-xl font-bold'>
-					PlayLister
+					<Image
+						className='cursor-pointer'
+						onClick={toggleMenu}
+						src={"/media/logo.svg"}
+						width={150}
+						height={150}
+						alt='Playlister'
+					></Image>
 				</Link>
 				<div className='flex gap-8'>
 					<ul className='flex gap-4 justify-center items-center font-semibold'>
@@ -38,9 +43,10 @@ const Header = () => {
 					{isAuthenticated ? (
 						<div className=''>
 							<Image
-							className="cursor-pointer"
+								className='cursor-pointer'
 								onClick={toggleMenu}
-								src={"/default_profile.svg"}
+								
+								src={"/media/default_profile.svg"}
 								width={40}
 								height={40}
 								alt='Profile'
@@ -58,7 +64,6 @@ const Header = () => {
 					)}
 				</div>
 			</nav>
-			
 
 			<Sidebar isOpen={isOpen} />
 		</header>
