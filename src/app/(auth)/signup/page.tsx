@@ -2,6 +2,7 @@
 import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
+import { AiOutlineLogin } from "react-icons/ai";
 
 const SignupPage = () => {
 	const [name, setName] = useState("");
@@ -47,7 +48,7 @@ const SignupPage = () => {
 		<div className='min-h-screen bg-gray-100 flex justify-center items-center'>
 			<form
 				onSubmit={handleSubmit}
-				className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
+				className='bg-gray-100 shadow-md rounded px-8 pt-6 pb-8 mb-4'
 			>
 				<div className='mb-4'>
 					<label
@@ -114,16 +115,13 @@ const SignupPage = () => {
 					/>
 				</div>
 				<div className='flex items-center justify-between w-full'>
-					<button
-						className=' w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-						type='submit'
-					>
-						Sign Up
+				<button className='flex justify-center items-center gap-2  bg-blue-600 hover:bg-white text-white text-md font-primary border-2 border-blue-600 hover:text-blue-600 transition-all w-full h-10 rounded-md hover:gap-5'>
+						Signup <AiOutlineLogin />
 					</button>
 				</div>
 
 				<div className='text-center mt-4'>
-					<Link href='/login' className='text-blue-500 hover:text-blue-700'>
+					<Link href='/login' className='text-blue-500 font-primary hover:text-blue-700'>
 						Already have an account? Login here.
 					</Link>
 				</div>

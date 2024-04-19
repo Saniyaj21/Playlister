@@ -7,14 +7,14 @@ import { AiOutlineLogin } from "react-icons/ai";
 import Sidebar from "./Sidebar";
 
 const Header = () => {
-	const [isAuthenticated, setIsAuthenticated] = useState(true);
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 	const toggleMenu = () => {
 		setIsOpen(!isOpen);
 		console.log(0);
 	};
 	return (
-		<header className=' bg-gray-200 px-[10%] max-sm:px-[5%]'>
+		<header className=' bg-green px-[10%] max-sm:px-[5%]'>
 			<nav className='container mx-auto flex justify-between items-center h-[10vh]'>
 				<Link href={"/"} className='text-xl font-bold'>
 					<Image
@@ -42,7 +42,7 @@ const Header = () => {
 						<div>
 							<Link
 								href='/login'
-								className='flex justify-center items-center gap-2 bg-transparent hover:bg-blue-600 text-blue-600 text-base font-medium border-2 border-blue-600 hover:text-white transition px-3 py-1 rounded-md '
+								className='flex justify-center items-center gap-2 bg-transparent hover:bg-blue-600 text-blue-600 text-md font-primary border-2 border-blue-600 hover:text-white transition-all w-28 h-10 rounded-md hover:gap-5'
 							>
 								Login <AiOutlineLogin />
 							</Link>

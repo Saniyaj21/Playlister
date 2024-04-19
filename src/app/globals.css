@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.font-primary {
+	font-family: "Sriracha", cursive;
+	font-weight: 400;
+}
