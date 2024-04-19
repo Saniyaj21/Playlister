@@ -19,7 +19,6 @@ const Header = () => {
 				<Link href={"/"} className='text-xl font-bold'>
 					<Image
 						className='cursor-pointer'
-						onClick={toggleMenu}
 						src={"/media/logo.svg"}
 						width={150}
 						height={150}
@@ -27,19 +26,6 @@ const Header = () => {
 					></Image>
 				</Link>
 				<div className='flex gap-8'>
-					<ul className='flex gap-4 justify-center items-center font-semibold'>
-						<li>
-							<Link href='/' className='hover:text-blue-600 transition'>
-								Lists
-							</Link>
-						</li>
-						<li>
-							<Link href='/' className='hover:text-blue-600 transition'>
-								About
-							</Link>
-						</li>
-					</ul>
-
 					{isAuthenticated ? (
 						<div className=''>
 							<Image
