@@ -5,9 +5,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { AiOutlineLogin } from "react-icons/ai";
 import Sidebar from "./Sidebar";
+import { selectUser } from "@/app/redux/slices/userSlice";
+import { useAppSelector } from "@/app/redux/hooks";
 
 const Header = () => {
-	const [isAuthenticated, setIsAuthenticated] = useState(true);
+	const {user, isAuthenticated} = useAppSelector(selectUser)
+
 	const [isOpen, setIsOpen] = useState(false);
 	const toggleMenu = () => {
 		setIsOpen(!isOpen);

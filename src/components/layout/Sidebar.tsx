@@ -1,16 +1,23 @@
+"use Client";
+
 import Link from "next/link";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
 import { RiPlayList2Line } from "react-icons/ri";
-import axios from "axios";
+import { logoutUser } from "@/app/redux/slices/userSlice";
+import { useAppDispatch } from "@/app/redux/hooks";
 
 interface SidebarProps {
 	isOpen: boolean;
 }
 
 const Sidebar = ({ isOpen }: SidebarProps) => {
+	const dispatch = useAppDispatch();
+
 	const handleLogout = async () => {
-		await axios.get("/api/user/logout");
+		console.log("ji");
+
+		dispatch(logoutUser());
 	};
 	return (
 		<div className='overflow-hidden'>
