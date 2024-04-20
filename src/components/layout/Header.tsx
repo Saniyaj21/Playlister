@@ -2,14 +2,20 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineLogin } from "react-icons/ai";
 import Sidebar from "./Sidebar";
 import { selectUser } from "@/app/redux/slices/userSlice";
 import { useAppSelector } from "@/app/redux/hooks";
 
 const Header = () => {
-	const {user, isAuthenticated} = useAppSelector(selectUser)
+	const { user, isAuthenticated } = useAppSelector(selectUser);
+
+	useEffect(() => {
+		if (!isAuthenticated) {
+			setIsOpen(false);
+		}
+	}, [isAuthenticated]);
 
 	const [isOpen, setIsOpen] = useState(false);
 	const toggleMenu = () => {
@@ -22,7 +28,6 @@ const Header = () => {
 				<Link href={"/"} className='text-xl font-bold'>
 					<Image
 						priority
-						
 						className='cursor-pointer h-auto'
 						src={"/media/logo.svg"}
 						width={150}

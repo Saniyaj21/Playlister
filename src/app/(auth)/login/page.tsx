@@ -1,42 +1,27 @@
 "use client";
-import { base_url } from "@/helpers/constans";
-import axios from "axios";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
+import { loginUser, selectUser } from "@/app/redux/slices/userSlice";
 import Link from "next/link";
-import { useState } from "react";
+import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
 import { AiOutlineLogin } from "react-icons/ai";
 
 const Page = () => {
+	const dispatch = useAppDispatch();
+	const { isAuthenticated } = useAppSelector(selectUser);
+
+	useEffect(() => {
+		if (isAuthenticated) {
+			redirect("/");
+		}
+	}, [isAuthenticated]);
+
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
-		// Here you can add your form submission logic
-		console.log("Email:", email);
-		console.log("Password:", password);
-		// Reset the form after submission
-
-		try {
-			const res = await axios.post(
-				base_url + "/api/user/login",
-				{
-					email: email,
-					password: password,
-				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-					withCredentials: true,
-				}
-			);
-
-			console.log(res);
-		} catch (error) {
-			console.error("Error fetching data:", error);
-		}
-
-
+		dispatch(loginUser({ email, password }));
 
 		setEmail("");
 		setPassword("");
@@ -49,7 +34,6 @@ const Page = () => {
 				className='bg-gray-100 shadow-md rounded px-8 pt-6 pb-8 mb-4'
 			>
 				<div className='mb-4'>
-					
 					<label
 						className='block text-gray-700 text-sm font-bold mb-2'
 						htmlFor='email'
@@ -88,7 +72,10 @@ const Page = () => {
 					</button>
 				</div>
 				<div className='text-center mt-4'>
-					<Link href={"/signup"} className='text-blue-500 font-primary hover:text-blue-700'>
+					<Link
+						href={"/signup"}
+						className='text-blue-500 font-primary hover:text-blue-700'
+					>
 						Dont have an account? Signup here.
 					</Link>
 				</div>

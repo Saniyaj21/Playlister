@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 			.setSubject(user._id.toString())
 			.sign(secret);
 
-		let response = NextResponse.json({ user }, { status: 200 });
+		let response = NextResponse.json({ success: true, user }, { status: 200 });
 		response.cookies.set("token", jwt, {
 			maxAge: 3600 * 24 * 3, //for 3 days
 			httpOnly: true,

@@ -1,11 +1,21 @@
 "use client";
-import { base_url } from "@/helpers/constans";
-import axios from "axios";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
+import { selectUser, signupUser } from "@/app/redux/slices/userSlice";
 import Link from "next/link";
-import { useState } from "react";
+import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
 import { AiOutlineLogin } from "react-icons/ai";
 
 const SignupPage = () => {
+	const dispatch = useAppDispatch();
+	const { isAuthenticated } = useAppSelector(selectUser);
+
+	useEffect(() => {
+		if (isAuthenticated) {
+			redirect("/");
+		}
+	}, [isAuthenticated]);
+
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -19,26 +29,8 @@ const SignupPage = () => {
 			alert("Passwords do not match!");
 			return;
 		}
-		try {
-			const res = await axios.post(
-				base_url + "/api/user/signup",
-				{
-					name: name,
-					email: email,
-					password: password,
-				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-					withCredentials: true,
-				}
-			);
+		dispatch(signupUser({ name, email, password }));
 
-			console.log(res);
-		} catch (error) {
-			console.error("Error fetching data:", error);
-		}
 		setName("");
 		setEmail("");
 		setPassword("");

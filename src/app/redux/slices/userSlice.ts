@@ -8,6 +8,8 @@ export interface CounterState {
 	isAuthenticated: boolean;
 	status: {
 		logoutStatus: string;
+		loginStatus: string;
+		signupStatus: string;
 	};
 	error: string | undefined;
 }
@@ -17,6 +19,8 @@ const initialState: CounterState = {
 	isAuthenticated: false,
 	status: {
 		logoutStatus: "idle",
+		loginStatus: "idle",
+		signupStatus: "idle",
 	},
 	error: "",
 };
@@ -33,6 +37,57 @@ export const logoutUser = createAsyncThunk("user/logoutUser", async () => {
 
 	return response.data;
 });
+
+// login user
+export const loginUser = createAsyncThunk(
+	"user/loginUser",
+	async ({ email, password }: { email: string; password: string }) => {
+		const response = await axios.post(
+			`${base_url}/api/user/login`,
+			{
+				email,
+				password,
+			},
+			{
+				headers: {
+					"Content-Type": "application/json",
+				},
+				withCredentials: true,
+			}
+		);
+		console.log(response);
+
+		return response.data;
+	}
+);
+
+// login user
+export const signupUser = createAsyncThunk(
+	"user/signupUser",
+	async ({
+		name,
+		email,
+		password,
+	}: {
+		name: string;
+		email: string;
+		password: string;
+	}) => {
+		const response = await axios.post(
+			`${base_url}/api/user/signup`,
+			{ name, email, password },
+			{
+				headers: {
+					"Content-Type": "application/json",
+				},
+				withCredentials: true,
+			}
+		);
+		console.log(response);
+
+		return response.data;
+	}
+);
 
 export const userSlice = createSlice({
 	name: "user",
@@ -55,13 +110,53 @@ export const userSlice = createSlice({
 				state.status.logoutStatus = "loading";
 			})
 			.addCase(logoutUser.fulfilled, (state, action) => {
-				state.status.logoutStatus = "succeeded";
-				state.user = {};
-				state.isAuthenticated = false;
+				if (action.payload.success) {
+					state.status.logoutStatus = "succeeded";
+					state.user = {};
+					state.isAuthenticated = false;
+				} else {
+					state.status.logoutStatus = "failed";
+				}
 			})
 			.addCase(logoutUser.rejected, (state, action) => {
 				state.status.logoutStatus = "failed";
-				state.error = "Try Again";
+				state.error = "Something went wrong";
+			})
+
+			// login user
+			.addCase(loginUser.pending, (state) => {
+				state.status.loginStatus = "loading";
+			})
+			.addCase(loginUser.fulfilled, (state, action) => {
+				if (action.payload.success) {
+					state.status.loginStatus = "succeeded";
+					state.user = action.payload.user;
+					state.isAuthenticated = true;
+				} else {
+					state.status.loginStatus = "failed";
+				}
+			})
+			.addCase(loginUser.rejected, (state, action) => {
+				state.status.loginStatus = "failed";
+				state.error = "Something went wrong";
+			})
+
+			// signup user
+			.addCase(signupUser.pending, (state) => {
+				state.status.signupStatus = "loading";
+			})
+			.addCase(signupUser.fulfilled, (state, action) => {
+				if (action.payload.success) {
+					state.status.signupStatus = "succeeded";
+					state.user = action.payload.user;
+					state.isAuthenticated = true;
+				} else {
+					state.status.signupStatus = "failed";
+				}
+			})
+			.addCase(signupUser.rejected, (state, action) => {
+				state.status.signupStatus = "failed";
+				state.error = "Something went wrong";
 			});
 	},
 });
