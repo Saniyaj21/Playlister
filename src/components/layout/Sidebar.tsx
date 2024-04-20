@@ -2,12 +2,16 @@ import Link from "next/link";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
 import { RiPlayList2Line } from "react-icons/ri";
+import axios from "axios";
 
 interface SidebarProps {
 	isOpen: boolean;
 }
 
 const Sidebar = ({ isOpen }: SidebarProps) => {
+	const handleLogout = async () => {
+		await axios.get("/api/user/logout");
+	};
 	return (
 		<div className='overflow-hidden'>
 			<div
@@ -29,7 +33,10 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
 						<RiPlayList2Line /> Playlists
 					</Link>
 
-					<button className='flex font-primary gap-2 items-center justify-center text-base font-medium bg-blue-600 text-white py-2 my-2 rounded '>
+					<button
+						onClick={handleLogout}
+						className='flex font-primary gap-2 items-center justify-center text-base font-medium bg-blue-600 text-white py-2 my-2 rounded '
+					>
 						Logout <RiLogoutCircleLine />
 					</button>
 				</div>

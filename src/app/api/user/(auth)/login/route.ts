@@ -2,32 +2,49 @@ import { connectDB } from "@/DBconfig/connect";
 import User from "@/models/userModel";
 import bcrypt from "bcryptjs";
 import * as jose from "jose";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
 	try {
 		connectDB();
 
-		const { name, email, password } = await req.json();
+		const { email, password } = await req.json();
 
-		// hashing the password
-		const hash = bcrypt.hashSync(password, 8);
+		// Lookup the user
+		const user = await User.findOne({ email: email });
 
-		const user = await User.create({
-			name,
-			email,
-			password: hash,
-		});
+		if (!user) {
+			return NextResponse.json(
+				{
+					error: "Invalid email or password",
+				},
+				{ status: 400 }
+			);
+		}
 
+		// Compare password
+		const isCorrectPassword = bcrypt.compareSync(password, user.password);
+
+		if (!isCorrectPassword) {
+			return NextResponse.json(
+				{
+					error: "Invalid email or password",
+				},
+				{ status: 400 }
+			);
+		}
+
+		// Create jwt token
 		const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 		const alg = "HS256";
 
 		const jwt = await new jose.SignJWT({})
 			.setProtectedHeader({ alg })
 			.setExpirationTime("72h")
-			.setSubject(user._id.toString())
+			.setSubject(user.id.toString())
 			.sign(secret);
 
+		// Respond with it
 		let response = NextResponse.json({ user }, { status: 200 });
 		response.cookies.set("token", jwt, {
 			maxAge: 3600 * 24 * 3, //for 3 days
