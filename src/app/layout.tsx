@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import ReduxProvider from "./redux/ReduxProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,13 +18,9 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-
 	return (
-
 		<html lang='en'>
-			
 			<head>
-
 				<link rel='icon' href='/favicon.ico' sizes='any' />
 
 				<link
@@ -47,8 +46,10 @@ export default function RootLayout({
 				/>
 			</head>
 			<body className={inter.className}>
-				<Header />
-				<div>{children}</div>
+				<ReduxProvider>
+					<Header />
+					{children}
+				</ReduxProvider>
 			</body>
 		</html>
 	);
