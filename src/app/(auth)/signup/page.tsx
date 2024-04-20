@@ -1,4 +1,5 @@
 "use client";
+import { base_url } from "@/helpers/constans";
 import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
@@ -20,7 +21,7 @@ const SignupPage = () => {
 		}
 		try {
 			const res = await axios.post(
-				"http://localhost:3000/api/user/signup",
+				base_url + "/api/user/signup",
 				{
 					name: name,
 					email: email,
@@ -115,13 +116,16 @@ const SignupPage = () => {
 					/>
 				</div>
 				<div className='flex items-center justify-between w-full'>
-				<button className='flex justify-center items-center gap-2  bg-blue-600 hover:bg-white text-white text-md font-primary border-2 border-blue-600 hover:text-blue-600 transition-all w-full h-10 rounded-md hover:gap-5'>
+					<button className='flex justify-center items-center gap-2  bg-blue-600 hover:bg-white text-white text-md font-primary border-2 border-blue-600 hover:text-blue-600 transition-all w-full h-10 rounded-md hover:gap-5'>
 						Signup <AiOutlineLogin />
 					</button>
 				</div>
 
 				<div className='text-center mt-4'>
-					<Link href='/login' className='text-blue-500 font-primary hover:text-blue-700'>
+					<Link
+						href='/login'
+						className='text-blue-500 font-primary hover:text-blue-700'
+					>
 						Already have an account? Login here.
 					</Link>
 				</div>

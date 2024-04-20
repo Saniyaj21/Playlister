@@ -7,7 +7,7 @@ import { AiOutlineLogin } from "react-icons/ai";
 import Sidebar from "./Sidebar";
 
 const Header = () => {
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [isAuthenticated, setIsAuthenticated] = useState(true);
 	const [isOpen, setIsOpen] = useState(false);
 	const toggleMenu = () => {
 		setIsOpen(!isOpen);
@@ -18,10 +18,12 @@ const Header = () => {
 			<nav className='container mx-auto flex justify-between items-center h-[10vh]'>
 				<Link href={"/"} className='text-xl font-bold'>
 					<Image
-						className='cursor-pointer'
+						priority
+						
+						className='cursor-pointer h-auto'
 						src={"/media/logo.svg"}
 						width={150}
-						height={150}
+						height={100}
 						alt='Playlister'
 					></Image>
 				</Link>
@@ -31,7 +33,6 @@ const Header = () => {
 							<Image
 								className='cursor-pointer'
 								onClick={toggleMenu}
-								
 								src={"/media/default_profile.svg"}
 								width={40}
 								height={40}

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
-import Sidebar from "@/components/layout/Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,22 +15,29 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+
 	return (
+
 		<html lang='en'>
+			
 			<head>
+
 				<link rel='icon' href='/favicon.ico' sizes='any' />
+
 				<link
 					rel='icon'
 					href='/icon?<generated>'
 					type='image/<generated>'
 					sizes='<generated>'
 				/>
+
 				<link
 					rel='apple-touch-icon'
 					href='/apple-icon?<generated>'
 					type='image/<generated>'
 					sizes='<generated>'
 				/>
+
 				{/* font */}
 				<link rel='preconnect' href='https://fonts.googleapis.com' />
 				<link rel='preconnect' href='https://fonts.gstatic.com' />
