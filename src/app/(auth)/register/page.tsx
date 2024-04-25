@@ -72,7 +72,6 @@ const RegisterPage = () => {
 						Already have an account?{" "}
 						<Link
 							href='/login'
-							title=''
 							className='font-medium text-black transition-all duration-200 hover:underline'
 						>
 							Sign In
