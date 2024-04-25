@@ -1,17 +1,23 @@
 "use client";
 
 import axios from "axios";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { redirect, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 const LoginPage = () => {
 	const [authState, setAuthState] = useState({
 		email: "",
 		password: "",
 	});
+	const session = useSession();
 
+	// if (session) {
+	// 	redirect("/");
+	// }
+
+	
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 
@@ -22,12 +28,12 @@ const LoginPage = () => {
 			setLoading(false);
 			console.log(res.data);
 
-			if (res.data.status === 200) {
+			if (res.data.success === true) {
 				signIn("credentials", {
 					email: authState.email,
 					password: authState.password,
 					callbackUrl: "/",
-					redirect: true,
+					// redirect: true,
 				});
 				console.log("users successfully logedin");
 				router.push("/");

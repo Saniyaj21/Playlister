@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiOutlineLogin } from "react-icons/ai";
 import Sidebar from "./Sidebar";
 import { useSession } from "next-auth/react";
@@ -10,9 +10,6 @@ import { useSession } from "next-auth/react";
 const Header = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const session = useSession();
-
-	
-	
 
 	const toggleMenu = () => {
 		setIsOpen(!isOpen);
@@ -31,7 +28,7 @@ const Header = () => {
 					></Image>
 				</Link>
 				<div className='flex gap-8'>
-					{session.status === "authenticated" ? (
+					{session ? (
 						<div className=''>
 							<Image
 								className='cursor-pointer'
