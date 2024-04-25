@@ -4,20 +4,18 @@ import Link from "next/link";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
 import { RiPlayList2Line } from "react-icons/ri";
-import { logoutUser } from "@/app/redux/slices/userSlice";
-import { useAppDispatch } from "@/app/redux/hooks";
+import { signOut } from "next-auth/react";
 
 interface SidebarProps {
 	isOpen: boolean;
 }
 
 const Sidebar = ({ isOpen }: SidebarProps) => {
-	const dispatch = useAppDispatch();
 
 	const handleLogout = async () => {
-		console.log("ji");
-
-		dispatch(logoutUser());
+		signOut({
+			callbackUrl: "/login",
+		})
 	};
 	return (
 		<div className='overflow-hidden'>

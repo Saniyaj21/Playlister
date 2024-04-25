@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
-import ReduxProvider from "./redux/ReduxProvider";
-
-const inter = Inter({ subsets: ["latin"] });
+import NextAuthProvider from "@/authProvider/NextAuthProvider";
 
 export const metadata: Metadata = {
 	title: "Playlister",
@@ -44,11 +39,11 @@ export default function RootLayout({
 					rel='stylesheet'
 				/>
 			</head>
-			<body className={inter.className}>
-				<ReduxProvider>
+			<body>
+				<NextAuthProvider>
 					<Header />
 					{children}
-				</ReduxProvider>
+				</NextAuthProvider>
 			</body>
 		</html>
 	);
