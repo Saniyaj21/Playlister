@@ -2,25 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiOutlineLogin } from "react-icons/ai";
 import Sidebar from "./Sidebar";
-import { selectUser } from "@/app/redux/slices/userSlice";
-import { useAppSelector } from "@/app/redux/hooks";
+import { useSession } from "next-auth/react";
 
 const Header = () => {
-	const { user, isAuthenticated } = useAppSelector(selectUser);
-
-	useEffect(() => {
-		if (!isAuthenticated) {
-			setIsOpen(false);
-		}
-	}, [isAuthenticated]);
-
 	const [isOpen, setIsOpen] = useState(false);
+	const session = useSession();
+
 	const toggleMenu = () => {
 		setIsOpen(!isOpen);
-		console.log(0);
 	};
 	return (
 		<header className=' bg-green px-[10%] max-sm:px-[5%]'>
@@ -36,7 +28,7 @@ const Header = () => {
 					></Image>
 				</Link>
 				<div className='flex gap-8'>
-					{isAuthenticated ? (
+					{session ? (
 						<div className=''>
 							<Image
 								className='cursor-pointer'

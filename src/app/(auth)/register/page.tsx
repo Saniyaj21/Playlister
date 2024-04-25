@@ -6,37 +6,39 @@ import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const LoginPage = () => {
+const RegisterPage = () => {
 	const [authState, setAuthState] = useState({
+		name: "",
 		email: "",
 		password: "",
+		password_confirmation: "",
 	});
+	const [loading, setLoading] = useState(false);
+	const router = useRouter();
+
 	const session = useSession();
 
 	// if (session) {
 	// 	redirect("/");
 	// }
 
-	
-	const [loading, setLoading] = useState(false);
-	const router = useRouter();
+	const githubSignin = () => {
+		signIn("github", {
+			callbackUrl: "/",
+			redirect: true,
+		});
+	};
 
 	const handleSubmit = async () => {
 		try {
 			setLoading(true);
-			const res = await axios.post("/api/auth/login", authState);
+			const res = await axios.post("/api/auth/register", authState);
 			setLoading(false);
 			console.log(res.data);
 
-			if (res.data.success === true) {
-				signIn("credentials", {
-					email: authState.email,
-					password: authState.password,
-					callbackUrl: "/",
-					// redirect: true,
-				});
-				console.log("users successfully logedin");
-				router.push("/");
+			if (res.data.status === 200) {
+				console.log("users successfully registered");
+				router.push("/login");
 			} else if (res.data.status === 400) {
 				console.log("error");
 			}
@@ -44,14 +46,6 @@ const LoginPage = () => {
 			setLoading(false);
 		}
 	};
-
-const githubSignin =() =>{
-	signIn("github",{
-		callbackUrl: "/",
-        redirect: true,
-	});
-}
-
 
 	return (
 		<section className='rounded-md bg-black/80 p-2'>
@@ -75,17 +69,36 @@ const githubSignin =() =>{
 						Sign up to create account
 					</h2>
 					<p className='mt-2 text-base text-gray-600'>
-						Don't have an account?{" "}
+						Already have an account?{" "}
 						<Link
-							href='/register'
-							title=''
+							href='/login'
 							className='font-medium text-black transition-all duration-200 hover:underline'
 						>
-							Register now.
+							Sign In
 						</Link>
 					</p>
 					<form className='mt-8'>
 						<div className='space-y-5'>
+							<div>
+								<label
+									htmlFor='name'
+									className='text-base font-medium text-gray-900'
+								>
+									{" "}
+									Full Name{" "}
+								</label>
+								<div className='mt-2'>
+									<input
+										onChange={(e) =>
+											setAuthState({ ...authState, name: e.target.value })
+										}
+										className='flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50'
+										type='text'
+										placeholder='Full Name'
+										id='name'
+									></input>
+								</div>
+							</div>
 							<div>
 								<label
 									htmlFor='email'
@@ -99,8 +112,7 @@ const githubSignin =() =>{
 										onChange={(e) =>
 											setAuthState({ ...authState, email: e.target.value })
 										}
-										className='flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm 
-                                        text-gray-400 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50'
+										className='flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50'
 										type='email'
 										placeholder='Email'
 										id='email'
@@ -130,20 +142,44 @@ const githubSignin =() =>{
 								</div>
 							</div>
 							<div>
+								<div className='flex items-center justify-between'>
+									<label
+										htmlFor='confirm-password'
+										className='text-base font-medium text-gray-900'
+									>
+										{" "}
+										Confirm Password{" "}
+									</label>
+								</div>
+								<div className='mt-2'>
+									<input
+										onChange={(e) =>
+											setAuthState({
+												...authState,
+												password_confirmation: e.target.value,
+											})
+										}
+										className='flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-400 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50'
+										type='password'
+										placeholder='Confirm Password'
+										id='confirm-password'
+									></input>
+								</div>
+							</div>
+							<div>
 								<button
 									onClick={handleSubmit}
 									type='button'
 									className='inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80'
 								>
-									Login
+									{loading ? "Creating..." : "Create Account"}
 								</button>
 							</div>
 						</div>
 					</form>
 					<div className='mt-3 space-y-3'>
 						<button
-
-						onClick={githubSignin}
+							onClick={githubSignin}
 							type='button'
 							className='relative inline-flex w-full items-center justify-center rounded-md border border-gray-400 bg-white px-3.5 py-2.5 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black focus:outline-none'
 						>
@@ -166,4 +202,4 @@ const githubSignin =() =>{
 	);
 };
 
-export default LoginPage;
+export default RegisterPage;
